@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wiremock-jump-config
+  labels:
+    app: wiremock-jump
+data:
+  jump-valid-entry.json: |
+    {
+      "name": "jump-valid-entry",
+      "priority": 1,
+      "request": {
+        "method": "POST",
+        "url": "/validate",
+        "headers": {
+          "Content-Type": { "contains": "application/json" },
+          "x-api-key": { "matches": ".*" }
+        },
+        "bodyPatterns": [
+          { "matchesJsonPath": "$.deviceId", "equalTo": "806e0bbd-90fe-4cef-8715-618581b77e9e" },
+          { "matchesJsonPath": "$.venueId", "equalTo": "7" },
+          { "matchesJsonPath": "$.orgId", "equalTo": "46376cb6-0b4e-472b-97f8-f6dc74de5c3f" },
+          { "matchesJsonPath": "$.scanTime" },
+          { "matchesJsonPath": "$[?(@.token =~ /.*valid_entry.*/)]" }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Which-Stub": "jump-valid-entry"
+        },
+        "body": "{\"displayMessage\": null, \"message\": \"Entry\", \"success\": true, \"items\": null, \"seatingInfo\": null}"
+      }
+    }
+  jump-already-entered.json: |
+    {
+      "name": "jump-already-entered",
+      "priority": 2,
+      "request": {
+        "method": "POST",
+        "url": "/validate",
+        "headers": {
+          "Content-Type": { "contains": "application/json" },
+          "x-api-key": { "matches": ".*" }
+        },
+        "bodyPatterns": [
+          { "matchesJsonPath": "$.deviceId" },
+          { "matchesJsonPath": "$.venueId" },
+          { "matchesJsonPath": "$.orgId" },
+          { "matchesJsonPath": "$.scanTime" },
+          { "matchesJsonPath": "$[?(@.token =~ /.*already_entered.*/)]" }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Which-Stub": "jump-already-entered"
+        },
+        "body": "{\"displayMessage\": null, \"message\": \"Already Entered\", \"success\": false, \"items\": null, \"seatingInfo\": null}"
+      }
+    }
+  jump-not-found.json: |
+    {
+      "name": "jump-not-found",
+      "priority": 3,
+      "request": {
+        "method": "POST",
+        "url": "/validate",
+        "headers": {
+          "Content-Type": { "contains": "application/json" },
+          "x-api-key": { "matches": ".*" }
+        },
+        "bodyPatterns": [
+          { "matchesJsonPath": "$.deviceId" },
+          { "matchesJsonPath": "$.venueId" },
+          { "matchesJsonPath": "$.orgId" },
+          { "matchesJsonPath": "$.scanTime" },    
+          { "matchesJsonPath": "$[?(@.token =~ /.*not_found.*/)]" }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Which-Stub": "jump-not-found"
+        },
+        "body": "{\"displayMessage\": null, \"message\": \"Ticket not found\", \"success\": false, \"items\": null, \"seatingInfo\": null}"
+      }
+    }
+  jump-device-not-found.json: |
+    {
+      "name": "jump-device-not-found",
+      "priority": 4,
+      "request": {
+        "method": "POST",
+        "url": "/validate",
+        "headers": {
+          "Content-Type": { "contains": "application/json" },
+          "x-api-key": { "matches": ".*" }
+        },
+        "bodyPatterns": [
+          { "matchesJsonPath": "$.deviceId", "equalTo": "806e0bbd-90fe-4cef-8715-618581b77e9e" },
+          { "matchesJsonPath": "$.venueId", "doesNotMatch": "7" },
+          { "matchesJsonPath": "$.orgId", "equalTo": "46376cb6-0b4e-472b-97f8-f6dc74de5c3f" },
+          { "matchesJsonPath": "$.scanTime" },
+          { "matchesJsonPath": "$.token" }
+        ]
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "X-Which-Stub": "jump-device-not-found"
+        },
+        "body": "{\"displayMessage\": null, \"message\": \"Device not found\", \"success\": false, \"items\": null, \"seatingInfo\": null}"
+      }
+    }

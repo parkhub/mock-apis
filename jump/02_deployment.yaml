@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wiremock-jump
+  labels:
+    app: wiremock-jump
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wiremock-jump
+  template:
+    metadata:
+      labels:
+        app: wiremock-jump
+    spec:
+      containers:
+      - name: wiremock
+        image: wiremock/wiremock:latest
+        ports:
+        - containerPort: 8080
+          name: http
+        args:
+        - --global-response-templating
+        - --verbose
+        volumeMounts:
+        - name: wiremock-mappings
+          mountPath: /home/wiremock/mappings
+          readOnly: true
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      volumes:
+      - name: wiremock-mappings
+        configMap:
+          name: wiremock-jump-config 

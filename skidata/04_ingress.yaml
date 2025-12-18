@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wiremock-skidata-ingress
+  labels:
+    app: wiremock-skidata
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  tls:
+  - hosts:
+    - wiremock-skidata.local
+    secretName: wiremock-skidata-tls
+  rules:
+  - host: wiremock-skidata.local
+    http:
+      paths:
+      - path: /bei
+        pathType: Prefix
+        backend:
+          service:
+            name: wiremock-skidata-service
+            port:
+              number: 80 

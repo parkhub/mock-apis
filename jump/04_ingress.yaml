@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wiremock-jump-ingress
+  labels:
+    app: wiremock-jump
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  tls:
+  - hosts:
+    - wiremock-jump.local
+    secretName: wiremock-jump-tls
+  rules:
+  - host: wiremock-jump.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wiremock-jump-service
+            port:
+              number: 80

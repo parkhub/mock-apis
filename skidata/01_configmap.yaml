@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wiremock-skidata-config
+  labels:
+    app: wiremock-skidata
+data:
+  skidata-reservation.json: |
+    {
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "/bei/DTASales/ReservationApi/reservation/v1/[0-9]+",
+        "headers": {
+          "Content-Type": {
+            "contains": "application/json"
+          },
+          "Authorization": {
+            "matches": "Basic .*"
+          },
+          "Idempotency-Key": {
+            "matches": ".*"
+          }
+        },
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$.productId"
+          },
+          {
+            "matchesJsonPath": "$.reservationCode"
+          }
+        ]
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "\"{{randomValue type='UUID'}}\""
+      }
+    } 
