@@ -40,6 +40,7 @@ data:
     }
   skidata-reservation-500.json: |
     {
+      "priority": 1,
       "request": {
         "method": "POST",
         "urlPathPattern": "/bei/DTASales/ReservationApi/reservation/v1/99500",
@@ -59,6 +60,7 @@ data:
     }
   skidata-reservation-409.json: |
     {
+      "priority": 1,
       "request": {
         "method": "POST",
         "urlPathPattern": "/bei/DTASales/ReservationApi/reservation/v1/99409",
@@ -78,6 +80,7 @@ data:
     }
   skidata-reservation-401.json: |
     {
+      "priority": 1,
       "request": {
         "method": "POST",
         "urlPathPattern": "/bei/DTASales/ReservationApi/reservation/v1/99401",
