@@ -37,4 +37,61 @@ data:
         },
         "body": "\"{{randomValue type='UUID'}}\""
       }
-    } 
+    }
+  skidata-reservation-500.json: |
+    {
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "/bei/DTASales/ReservationApi/reservation/v1/99500",
+        "headers": {
+          "Content-Type": {
+            "contains": "application/json"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"ErrorCode\": \"INTERNAL_ERROR\", \"ErrorMessage\": \"An internal server error occurred\"}"
+      }
+    }
+  skidata-reservation-409.json: |
+    {
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "/bei/DTASales/ReservationApi/reservation/v1/99409",
+        "headers": {
+          "Content-Type": {
+            "contains": "application/json"
+          }
+        }
+      },
+      "response": {
+        "status": 409,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"ErrorCode\": \"CONFLICT\", \"ErrorMessage\": \"Reservation already exists\"}"
+      }
+    }
+  skidata-reservation-401.json: |
+    {
+      "request": {
+        "method": "POST",
+        "urlPathPattern": "/bei/DTASales/ReservationApi/reservation/v1/99401",
+        "headers": {
+          "Content-Type": {
+            "contains": "application/json"
+          }
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{\"ErrorCode\": \"UNAUTHORIZED\", \"ErrorMessage\": \"Invalid credentials\"}"
+      }
+    }
